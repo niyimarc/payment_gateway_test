@@ -1,0 +1,33 @@
+<html>
+<head>
+<title>Checkout</title>
+</head>
+<body>
+{% if payment_method == 'paystack' %}
+<script src="https://js.paystack.co/v2/inline.js"></script>
+<script type="text/javascript">
+    function payWithPaystack() {
+        var handler = PaystackPop.setup({
+            key: '{{ PAYSTACK_PUBLIC_KEY }}',
+            email: '{{ request.user.email }}',
+            amount: {{ order.total_price|floatformat:0 }} * 100,
+            currency: "NGN",
+            ref: '' + Math.floor((Math.random() * 1000000000) + 1),
+            callback: function(response) {
+                window.location.href = "{% url 'store:payment_verification' order.id payment_method %}?reference=" + response.reference;
+            },
+            onClose: function() {
+                alert('Payment was not completed.');
+            }
+        });
+        handler.openIframe();
+    }
+
+    window.onload = function () {
+        payWithPaystack();
+    };
+</script>
+{% endif %}
+
+</body>
+</html>
