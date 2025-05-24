@@ -3,9 +3,11 @@
 <title>Checkout</title>
 </head>
 <body>
+
 {% if payment_method == 'paystack' %}
 <script src="https://js.paystack.co/v2/inline.js"></script>
 <script type="text/javascript">
+    
     function payWithPaystack() {
         var handler = PaystackPop.setup({
             key: '{{ PAYSTACK_PUBLIC_KEY }}',
@@ -26,6 +28,30 @@
     window.onload = function () {
         payWithPaystack();
     };
+</script>
+{% endif %}
+
+{% if payment_method == 'flutterwave' %}
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    FlutterwaveCheckout({
+      public_key: "{{ FLUTTERWAVE_PUBLIC_KEY }}",
+      tx_ref: "{{ order.order_reference }}",
+      amount: {{order.total_price}},
+      currency: "NGN",
+      payment_options: "card, ussd, banktransfer",
+      redirect_url: "{% url 'store:payment_verification' order.id payment_method %}",
+      customer: {
+        email: "{{ request.user.email }}",
+        name: "{{ request.user.get_full_name|default:request.user.username }}"
+      },
+      customizations: {
+        title: "My Store",
+        description: "Payment for order {{ order.order_reference }}"
+      }
+    });
+  });
 </script>
 {% endif %}
 
