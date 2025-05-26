@@ -8,11 +8,6 @@ load_dotenv()
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 # this is the path to the html templates 
 TEMPLATES_DIR = BASE_DIR / 'templates'
-# this is the path to the static folder where css, js and images are stored
-STATIC_DIR = BASE_DIR / 'static'
-# path to the media folder 
-MEDIA_ROOT = BASE_DIR / 'media'
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -113,16 +108,13 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
-STATIC_URL = 'static/'
-MEDIA_URL = 'media/'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-STATICFILES_DIRS = [
-    STATIC_DIR,
-]
+
 # Models used for order
 PAYMENT_ORDER_MODEL = 'store.Order'
 
@@ -133,3 +125,10 @@ PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY')
 # Flutterwave keys
 FLUTTERWAVE_PUBLIC_KEY = os.environ.get('FLUTTERWAVE_PUBLIC_KEY')
 FLUTTERWAVE_SECRET_KEY = os.environ.get('FLUTTERWAVE_SECRET_KEY')
+
+# Redirect url used for payment gateway
+# DJANGO_PG_SUCCESS_REDIRECT = 'store:track_order'
+# DJANGO_PG_FAILURE_REDIRECT = 'store:create_order'
+
+DJANGO_PG_SUCCESS_REDIRECT = 'store.utils.payment_success_redirect'
+DJANGO_PG_FAILURE_REDIRECT = 'store.utils.payment_failure_redirect'
