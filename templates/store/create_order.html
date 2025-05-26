@@ -1,0 +1,13 @@
+<html>
+<head>
+  <title>Create Order</title>
+</head>
+<body>
+  <h2>Create Your Order</h2>
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Continue to Checkout</button>
+  </form>
+</body>
+</html>
