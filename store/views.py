@@ -25,6 +25,8 @@ def create_order(request):
                 "payment_method": payment_method,
                 "PAYSTACK_PUBLIC_KEY": settings.PAYSTACK_PUBLIC_KEY,
                 "FLUTTERWAVE_PUBLIC_KEY": settings.FLUTTERWAVE_PUBLIC_KEY,
+                "INTERSWITCH_MERCHANT_CODE": settings.INTERSWITCH_MERCHANT_CODE,
+                "INTERSWITCH_PAY_ITEM_ID": settings.INTERSWITCH_PAY_ITEM_ID,
             }
             return render(request, "store/checkout.html", context)
     else:

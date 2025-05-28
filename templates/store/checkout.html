@@ -55,5 +55,41 @@
 </script>
 {% endif %}
 
+{% if payment_method == 'interswitch' %}
+<script src="https://newwebpay.qa.interswitchng.com/inline-checkout.js"></script>
+<script>
+(function() {
+    const redirectUrl = "{% url 'store:payment_verification' order.id payment_method %}?reference={{ order.order_reference }}";
+    const paymentAmount = {{ order.total_price|floatformat:0 }} * 100;
+
+    function paymentCallback(response) {
+        console.log("Interswitch Payment Response:", response);
+
+        if (response?.resp === '00') {
+            // Successful payment
+            window.location.href = redirectUrl;
+        } else {
+            alert("Payment was not successful. Please try again.");
+        }
+    }
+
+    const paymentRequest = {
+        merchant_code: "{{ INTERSWITCH_MERCHANT_CODE }}",
+        pay_item_id: "{{ INTERSWITCH_PAY_ITEM_ID }}",
+        txn_ref: "{{ order.order_reference }}",
+        site_redirect_url: redirectUrl,
+        amount: paymentAmount,
+        currency: 566,
+        cust_email: "{{ request.user.email }}",
+        cust_name: "{{ request.user.get_full_name|default:request.user.username }}",
+        onComplete: paymentCallback,
+        mode: "TEST"
+    };
+
+    window.webpayCheckout(paymentRequest);
+})();
+</script>
+{% endif %}
+
 </body>
 </html>

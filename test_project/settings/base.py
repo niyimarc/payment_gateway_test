@@ -126,6 +126,10 @@ PAYSTACK_PUBLIC_KEY = os.environ.get('PAYSTACK_PUBLIC_KEY')
 FLUTTERWAVE_PUBLIC_KEY = os.environ.get('FLUTTERWAVE_PUBLIC_KEY')
 FLUTTERWAVE_SECRET_KEY = os.environ.get('FLUTTERWAVE_SECRET_KEY')
 
+# Interswitch keys
+INTERSWITCH_MERCHANT_CODE = os.environ.get('INTERSWITCH_MERCHANT_CODE')
+INTERSWITCH_PAY_ITEM_ID = os.environ.get('INTERSWITCH_PAY_ITEM_ID')
+
 # Redirect url used for payment gateway
 # DJANGO_PG_SUCCESS_REDIRECT = 'store:track_order'
 # DJANGO_PG_FAILURE_REDIRECT = 'store:create_order'
